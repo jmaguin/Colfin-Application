@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_finance_app/database.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -13,6 +10,10 @@ class LogPage extends StatefulWidget {
 }
 
 class _LogPageState extends State<LogPage> {
+  // Text controllers to store values input into text fields
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+
   // List to store items in dropdown menu
   String dropDownText = "Food";
   List<String> dropDownItems = [
@@ -39,6 +40,14 @@ class _LogPageState extends State<LogPage> {
       backgroundColor: primary,
       body: getBody(),
     );
+  }
+
+  // Destroy text controllers
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    super.dispose();
   }
 
   Widget getBody() {
@@ -86,10 +95,18 @@ class _LogPageState extends State<LogPage> {
             padding: const EdgeInsets.only(right: 1),
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
-              child: const TextField(
+              child: TextField(
+                controller: nameController,
+                obscureText: false,
+                textAlign: TextAlign.left,
                 decoration: InputDecoration(
-                  hintText: 'Enter Item',
                   border: OutlineInputBorder(),
+                  hintText: 'Enter Name',
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: mainFontColor,
+                  ),
                 ),
               ),
             ),
@@ -116,10 +133,18 @@ class _LogPageState extends State<LogPage> {
             padding: const EdgeInsets.only(right: 1),
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
-              child: const TextField(
+              child: TextField(
+                controller: priceController,
+                obscureText: false,
+                textAlign: TextAlign.left,
                 decoration: InputDecoration(
-                  hintText: 'Enter Price',
                   border: OutlineInputBorder(),
+                  hintText: 'Enter Price',
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: mainFontColor,
+                  ),
                 ),
               ),
             ),
@@ -171,19 +196,25 @@ class _LogPageState extends State<LogPage> {
             ),
           ),
           // Add item Button --------------------------------------------------
-
-          Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.all(25),
-            decoration: BoxDecoration(
-                color: buttoncolor, borderRadius: BorderRadius.circular(25)),
-            child: Center(
-              child: Text(
-                "Add Item",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+          GestureDetector(
+            onTap: () async {
+              // parse() converts string to double
+              int id = await Database.addPurchase(nameController.text,
+                  double.parse(priceController.text), dropDownText);
+            },
+            child: Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(horizontal: 25),
+              decoration: BoxDecoration(
+                  color: buttoncolor, borderRadius: BorderRadius.circular(25)),
+              child: Center(
+                child: Text(
+                  "Add Item",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ),

@@ -19,6 +19,7 @@ class Database {
       """);
   }
 
+  // Open database
   static Future<sql.Database> db() async {
     return sql.openDatabase(
       _dbName,
