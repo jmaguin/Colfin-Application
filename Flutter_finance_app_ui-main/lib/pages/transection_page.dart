@@ -14,13 +14,15 @@ class TransectionPage extends StatefulWidget {
 }
 
 class _TransectionPageState extends State<TransectionPage> {
-  late Future<ApiConstant> futureAlbum;
+  late Future<List<ApiConstant>> futureAlbum;
+  int numList = 0;
   bool avail = false;
   @override
   void initState() {
     super.initState();
     try{
       futureAlbum = fetchAlbum();
+
       avail = true;
     }catch(e){
       avail = false;
@@ -187,327 +189,390 @@ class _TransectionPageState extends State<TransectionPage> {
               ],
             ),
           ),
+          Row(
+  children: [
+    Expanded(
+      child: FutureBuilder<List<ApiConstant>>(
+        future: futureAlbum,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: snapshot.data!.map((album) {
+                return Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    left: 25,
+                    right: 25,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.03),
+                        spreadRadius: 10,
+                        blurRadius: 3,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 20, right: 20, left: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: Center(
+                            child: Icon(
+                              Icons.computer,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Container(
+                            width: (size.width - 90) * 0.7,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  album.title,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "Amount of Savings: ${album.savings}%",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "\$${album.salePrice}",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          } else if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    ),
+  ],
+),
 
-           Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: 10,
-                          left: 25,
-                          right: 25,
-                        ),
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: grey.withOpacity(0.03),
-                                spreadRadius: 10,
-                                blurRadius: 3,
-                                // changes position of shadow
-                              ),
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 20, right: 20, left: 20),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                // decoration: BoxDecoration(
-                                //   color: arrowbgColor,
-                                //   borderRadius: BorderRadius.circular(15),
-                                //   // shape: BoxShape.circle
-                                // ),
-                                child: Center(
-                                    child: Icon(Icons.emoji_food_beverage,color: mainFontColor,)),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  width: (size.width - 90) * 0.7,
-                                  child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "In N Out",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "Santa Clara, CA",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: black.withOpacity(0.5),
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ]),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "-\$5.00",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: black),
-                                      )
-                                    ],
-                                  ),
+
+          //  Row(
+          //         children: [
+          //           Expanded(
+          //             child: Container(
+          //               margin: EdgeInsets.only(
+          //                 top: 10,
+          //                 left: 25,
+          //                 right: 25,
+          //               ),
+          //               decoration: BoxDecoration(
+          //                   color: white,
+          //                   borderRadius: BorderRadius.circular(25),
+          //                   boxShadow: [
+          //                     BoxShadow(
+          //                       color: grey.withOpacity(0.03),
+          //                       spreadRadius: 10,
+          //                       blurRadius: 3,
+          //                       // changes position of shadow
+          //                     ),
+          //                   ]),
+          //               child: Padding(
+          //                 padding: const EdgeInsets.only(
+          //                     top: 10, bottom: 20, right: 20, left: 20),
+          //                 child: Row(
+          //                   children: [
+          //                     Container(
+          //                       width: 50,
+          //                       height: 50,
+          //                       // decoration: BoxDecoration(
+          //                       //   color: arrowbgColor,
+          //                       //   borderRadius: BorderRadius.circular(15),
+          //                       //   // shape: BoxShape.circle
+          //                       // ),
+          //                       child: Center(
+          //                           child: Icon(Icons.emoji_food_beverage,color: mainFontColor,)),
+          //                     ),
+          //                     SizedBox(
+          //                       width: 10,
+          //                     ),
+          //                     Expanded(
+          //                       child: Container(
+          //                         width: (size.width - 90) * 0.7,
+          //                         child: Column(
+          //                             mainAxisAlignment: MainAxisAlignment.center,
+          //                             crossAxisAlignment:
+          //                                 CrossAxisAlignment.start,
+          //                             children: [
+          //                               Text(
+          //                                 "In N Out",
+          //                                 style: TextStyle(
+          //                                     fontSize: 15,
+          //                                     color: black,
+          //                                     fontWeight: FontWeight.bold),
+          //                               ),
+          //                               SizedBox(
+          //                                 height: 5,
+          //                               ),
+          //                               Text(
+          //                                 "Santa Clara, CA",
+          //                                 style: TextStyle(
+          //                                     fontSize: 12,
+          //                                     color: black.withOpacity(0.5),
+          //                                     fontWeight: FontWeight.w400),
+          //                               ),
+          //                             ]),
+          //                       ),
+          //                     ),
+          //                     Expanded(
+          //                       child: Container(
+          //                         child: Row(
+          //                           mainAxisAlignment: MainAxisAlignment.end,
+          //                           children: [
+          //                             Text(
+          //                               "-\$5.00",
+          //                               style: TextStyle(
+          //                                   fontSize: 15,
+          //                                   fontWeight: FontWeight.bold,
+          //                                   color: black),
+          //                             )
+          //                           ],
+          //                         ),
                                   
-                                ),
-                              )
-                            ],
-                          ),
+          //                       ),
+          //                     )
+          //                   ],
+          //                 ),
             
-                        ),
+          //               ),
                         
-                      ),
-                    ),
-                  ],
-                ),
-                 Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: 10,
-                          left: 25,
-                          right: 25,
-                        ),
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: grey.withOpacity(0.03),
-                                spreadRadius: 10,
-                                blurRadius: 3,
-                                // changes position of shadow
-                              ),
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 20, right: 20, left: 20),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                // decoration: BoxDecoration(
-                                //   color: arrowbgColor,
-                                //   borderRadius: BorderRadius.circular(15),
-                                //   // shape: BoxShape.circle
-                                // ),
-                                child: Center(
-                                    child: Icon(Icons.emoji_food_beverage,color: mainFontColor,)),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  width: (size.width - 90) * 0.7,
-                                  child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Boba Guys",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "Santa Clara, CA",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: black.withOpacity(0.5),
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ]),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "-10%",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: black),
-                                      )
-                                    ],
-                                  ),
-                                  
-                                ),
-                              )
-                            ],
-                          ),
-            
-                        ),
-                        
-                      ),
-                    ),
-                  ],
-                ),
-                 Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: 10,
-                          left: 25,
-                          right: 25,
-                        ),
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: grey.withOpacity(0.03),
-                                spreadRadius: 10,
-                                blurRadius: 3,
-                                // changes position of shadow
-                              ),
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 20, right: 20, left: 20),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                // decoration: BoxDecoration(
-                                //   color: arrowbgColor,
-                                //   borderRadius: BorderRadius.circular(15),
-                                //   // shape: BoxShape.circle
-                                // ),
-                                child: Center(
-                                    child: Icon(Icons.computer,color: mainFontColor,)),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  width: (size.width - 90) * 0.7,
-                                  child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "HP Notebook Professional Laptop",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "Amazon",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: black.withOpacity(0.5),
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ]),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "-\$500.00",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: black),
-                                      )
-                                    ],
-                                  ),
-                                  
-                                ),
-                              )
-                            ],
-                          ),
-            
-                        ),
-                        
-                      ),
-                    ),
-                  ],
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //               top: 20, bottom: 10, right: 20, left: 20),
-                //   child:
-                //     Column(
-                //         children:[
-                //            Container(
-                //               padding: EdgeInsets.only(left:25,right: 25,top: 5,bottom: 5),
-                //               margin: EdgeInsets.symmetric(horizontal: 15),
-                //                 child: Container(
-                //                           width: 325,
-                //                           height: 325,
-                //                           decoration: BoxDecoration(
-                                              
-                //                               image: DecorationImage(
-                //                                   image: NetworkImage(
-                //                                       "https://res.cloudinary.com/dic3o7vzw/image/upload/v1673927487/avatars/cropped_uxagcn.jpg"),
-                //                                   fit: BoxFit.cover)),
-                //                         ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+                //  Row(
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         margin: EdgeInsets.only(
+                //           top: 10,
+                //           left: 25,
+                //           right: 25,
+                //         ),
+                //         decoration: BoxDecoration(
+                //             color: white,
+                //             borderRadius: BorderRadius.circular(25),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                 color: grey.withOpacity(0.03),
+                //                 spreadRadius: 10,
+                //                 blurRadius: 3,
+                //                 // changes position of shadow
                 //               ),
-                //         ]
+                //             ]),
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(
+                //               top: 10, bottom: 20, right: 20, left: 20),
+                //           child: Row(
+                //             children: [
+                //               Container(
+                //                 width: 50,
+                //                 height: 50,
+                //                 // decoration: BoxDecoration(
+                //                 //   color: arrowbgColor,
+                //                 //   borderRadius: BorderRadius.circular(15),
+                //                 //   // shape: BoxShape.circle
+                //                 // ),
+                //                 child: Center(
+                //                     child: Icon(Icons.emoji_food_beverage,color: mainFontColor,)),
+                //               ),
+                //               SizedBox(
+                //                 width: 10,
+                //               ),
+                //               Expanded(
+                //                 child: Container(
+                //                   width: (size.width - 90) * 0.7,
+                //                   child: Column(
+                //                       mainAxisAlignment: MainAxisAlignment.center,
+                //                       crossAxisAlignment:
+                //                           CrossAxisAlignment.start,
+                //                       children: [
+                //                         Text(
+                //                           "Boba Guys",
+                //                           style: TextStyle(
+                //                               fontSize: 15,
+                //                               color: black,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Text(
+                //                           "Santa Clara, CA",
+                //                           style: TextStyle(
+                //                               fontSize: 12,
+                //                               color: black.withOpacity(0.5),
+                //                               fontWeight: FontWeight.w400),
+                //                         ),
+                //                       ]),
+                //                 ),
+                //               ),
+                //               Expanded(
+                //                 child: Container(
+                //                   child: Row(
+                //                     mainAxisAlignment: MainAxisAlignment.end,
+                //                     children: [
+                //                       Text(
+                //                         "-10%",
+                //                         style: TextStyle(
+                //                             fontSize: 15,
+                //                             fontWeight: FontWeight.bold,
+                //                             color: black),
+                //                       )
+                //                     ],
+                //                   ),
+                                  
+                //                 ),
+                //               )
+                //             ],
+                //           ),
+            
+                //         ),
+                        
                 //       ),
-                    
+                //     ),
+                //   ],
                 // ),
-            //      Container(
-              
-            //   padding: EdgeInsets.all(16),
-            //   margin: EdgeInsets.all( 25),
-            //   decoration: BoxDecoration(
-                
-            //       color:buttoncolor, borderRadius: BorderRadius.circular(25)),
-            //   child: Center(
-            //     child: Text(
-            //       "See Details",
-            //       style: TextStyle(
-            //           color: Colors.white,
-            //           fontSize: 16,
-            //           fontWeight: FontWeight.w600),
-            //     ),
-            //   ),
-            // ),
+                //  Row(
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         margin: EdgeInsets.only(
+                //           top: 10,
+                //           left: 25,
+                //           right: 25,
+                //         ),
+                //         decoration: BoxDecoration(
+                //             color: white,
+                //             borderRadius: BorderRadius.circular(25),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                 color: grey.withOpacity(0.03),
+                //                 spreadRadius: 10,
+                //                 blurRadius: 3,
+                //                 // changes position of shadow
+                //               ),
+                //             ]),
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(
+                //               top: 10, bottom: 20, right: 20, left: 20),
+                //           child: Row(
+                //             children: [
+                //               Container(
+                //                 width: 50,
+                //                 height: 50,
+                //                 // decoration: BoxDecoration(
+                //                 //   color: arrowbgColor,
+                //                 //   borderRadius: BorderRadius.circular(15),
+                //                 //   // shape: BoxShape.circle
+                //                 // ),
+                //                 child: Center(
+                //                     child: Icon(Icons.computer,color: mainFontColor,)),
+                //               ),
+                //               SizedBox(
+                //                 width: 10,
+                //               ),
+                //               Expanded(
+                //                 child: Container(
+                //                   width: (size.width - 90) * 0.7,
+                //                   child: Column(
+                //                       mainAxisAlignment: MainAxisAlignment.center,
+                //                       crossAxisAlignment:
+                //                           CrossAxisAlignment.start,
+                //                       children: [
+                //                         Text(
+                //                           "HP Notebook Professional Laptop",
+                //                           style: TextStyle(
+                //                               fontSize: 15,
+                //                               color: black,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Text(
+                //                           "Amazon",
+                //                           style: TextStyle(
+                //                               fontSize: 12,
+                //                               color: black.withOpacity(0.5),
+                //                               fontWeight: FontWeight.w400),
+                //                         ),
+                //                       ]),
+                //                 ),
+                //               ),
+                //               Expanded(
+                //                 child: Container(
+                //                   child: Row(
+                //                     mainAxisAlignment: MainAxisAlignment.end,
+                //                     children: [
+                //                       Text(
+                //                         "-\$500.00",
+                //                         style: TextStyle(
+                //                             fontSize: 15,
+                //                             fontWeight: FontWeight.bold,
+                //                             color: black),
+                //                       )
+                //                     ],
+                //                   ),
+                                  
+                //                 ),
+                //               )
+                //             ],
+                //           ),
+            
+                //         ),
+                        
+                //       ),
+                //     ),
+                //   ],
+                // ),
         ],
       ),
     ));
