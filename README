@@ -1,1 +1,18 @@
-hello
+Home page & Coupons page
+
+Home Page Description:
+Users are directed to this page after log in. Home page gives users an overview of their spendings and funds available. Users will have the choice to other pages by navigating the icon bar at the bottom or interact with the icons at the top. 
+
+Home Page Functionalities:
+- Data on expenses and cash available is retrieved from database using getPurchase() and getPurchaseByID()
+- Data on history of money outflow and inflow retrieved from database using getPurchase()
+
+Coupons Page Description:
+Upon entering this page, the default view of the page is a list of all coupons available today. Users have the choice to sort the list by categorizing the coupons in terms of Online Shopping or food. Users can interact with the page by clicking on a coupon box and direct them to the online shop.
+
+Coupons Page Functionalities:
+- Utilizes cheapshark public API to retrieve data on deals.
+- Convert data into JSON format with the following attributes, title, salePrice, and savings, and display it in listview.
+- Click on coupon box to navigate to the shop website.
+
+
