@@ -1,3 +1,4 @@
+
 Home page & Coupons page
 
 Home Page Description:
@@ -14,5 +15,45 @@ Coupons Page Functionalities:
 - Utilizes cheapshark public API to retrieve data on deals.
 - Convert data into JSON format with the following attributes, title, salePrice, and savings, and display it in listview.
 - Click on coupon box to navigate to the shop website.
+
+
+5 Pages in App:
+  - daily page
+  - home page
+  - log page
+  - login page
+  - transaction page
+
+This app uses a persistent SQLite database to store all input purchases in a
+List<Map> format. This database contains all information that various app pages
+pull from to make their graphics and tables.
+
+Database Functionality:
+- database defined in "Database.dart"
+- functions to interact w/ database:
+    addPurchase(String name, double price, String category)
+      ~ adds a purchase to database
+      ~ returns ID of purchase in database
+      ~ return type: int
+
+    getPurchase()
+      ~ returns all purchases in database
+      ~ Refer to Step 6: https://docs.flutter.dev/cookbook/persistence/sqlite
+      ~ return type: List<Map<String, dynamic>>
+
+    getPurchaseByID(int id)
+      ~ returns a single purchase by ID
+      ~ return type: List<Map<String, dynamic>>
+
+    updateItem(int id, String name, double price, String category)
+      ~ updates a purchase specified by ID
+      ~ returns ID of purchase
+      ~ return type: int
+
+    deletePurchase(int id)
+      ~ deletes purchase from database
+      ~ return type: void
+
+
 
 

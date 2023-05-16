@@ -1,0 +1,6 @@
+--------------------------- TODO ---------------------------
+
+- Log page
+    ~ add animation to "Add Item" button when pressed
+    ~ add pop-up "Item Added!" text when button pressed
+    ~ shift text boxes to left

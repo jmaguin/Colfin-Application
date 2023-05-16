@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/pages/daily_page.dart';
+import 'package:flutter_finance_app/pages/log_page.dart';
 import 'package:flutter_finance_app/pages/transection_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 List<Widget> pages = [
     DailyPage(),
     TransectionPage(),
-    TransectionPage(),
+    LogPage(),
     TransectionPage(),
     TransectionPage(),
   ];
