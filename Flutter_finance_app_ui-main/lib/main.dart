@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_finance_app/pages/daily_page.dart';
 import 'package:flutter_finance_app/pages/home_page.dart';
 import 'package:flutter_finance_app/pages/login_page.dart';
 import 'package:flutter_finance_app/pages/transection_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
       fontFamily: GoogleFonts.poppins().fontFamily,
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
