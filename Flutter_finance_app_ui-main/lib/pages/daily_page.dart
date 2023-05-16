@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:icon_badge/icon_badge.dart';
+import  'package:intl/intl.dart';
 
 class DailyPage extends StatefulWidget {
   const DailyPage({super.key});
@@ -16,6 +17,7 @@ class _DailyPageState extends State<DailyPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    String cdate3 = DateFormat("MMM dd, yyyy").format(DateTime.now());
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(
@@ -54,7 +56,7 @@ class _DailyPageState extends State<DailyPage> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1531256456869-ce942a665e80?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI4fHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"),
+                                    "https://fastly.picsum.photos/id/24/4855/1803.jpg?hmac=ICVhP1pUXDLXaTkgwDJinSUS59UWalMxf4SOIWb9Ui4"),
                                 fit: BoxFit.cover)),
                       ),
                       SizedBox(
@@ -65,7 +67,7 @@ class _DailyPageState extends State<DailyPage> {
                         child: Column(
                           children: [
                             Text(
-                              "Abbie Wilson",
+                              "Eric Huang",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -95,33 +97,7 @@ class _DailyPageState extends State<DailyPage> {
                       Column(
                         children: [
                           Text(
-                            "\$8900",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: mainFontColor),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Income",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w100,
-                                color: black),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 0.5,
-                        height: 40,
-                        color: black.withOpacity(0.3),
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "\$5500",
+                            "\$900",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -147,7 +123,7 @@ class _DailyPageState extends State<DailyPage> {
                       Column(
                         children: [
                           Text(
-                            "\$890",
+                            "\$5500",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -157,7 +133,7 @@ class _DailyPageState extends State<DailyPage> {
                             height: 5,
                           ),
                           Text(
-                            "Loan",
+                            "Cash Available",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w100,
@@ -165,6 +141,32 @@ class _DailyPageState extends State<DailyPage> {
                           ),
                         ],
                       ),
+                      // Container(
+                      //   width: 0.5,
+                      //   height: 40,
+                      //   color: black.withOpacity(0.3),
+                      // ),
+                      // Column(
+                      //   children: [
+                      //     Text(
+                      //       "\$890",
+                      //       style: TextStyle(
+                      //           fontSize: 16,
+                      //           fontWeight: FontWeight.w600,
+                      //           color: mainFontColor),
+                      //     ),
+                      //     SizedBox(
+                      //       height: 5,
+                      //     ),
+                      //     Text(
+                      //       "Loan",
+                      //       style: TextStyle(
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.w100,
+                      //           color: black),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   )
                 ],
@@ -210,7 +212,7 @@ class _DailyPageState extends State<DailyPage> {
                 //       fontSize: 20,
                 //       color: mainFontColor,
                 //     )),
-                Text("Jan 16, 2023",
+                Text(cdate3,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
@@ -284,7 +286,7 @@ class _DailyPageState extends State<DailyPage> {
                                           height: 5,
                                         ),
                                         Text(
-                                          "Sending Payment to Clients",
+                                          "Payments to StarBucks",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -299,7 +301,7 @@ class _DailyPageState extends State<DailyPage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "\$150",
+                                        "\$15",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -353,7 +355,7 @@ class _DailyPageState extends State<DailyPage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: Center(
-                                    child: Icon(Icons.arrow_downward_rounded)),
+                                    child: Icon(Icons.book)),
                               ),
                               SizedBox(
                                 width: 15,
@@ -367,7 +369,7 @@ class _DailyPageState extends State<DailyPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Receive",
+                                          "Subscription",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: black,
@@ -377,7 +379,7 @@ class _DailyPageState extends State<DailyPage> {
                                           height: 5,
                                         ),
                                         Text(
-                                          "Receiving Payment from company",
+                                          "Subscription fee to Netflix",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -459,7 +461,7 @@ class _DailyPageState extends State<DailyPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Loan",
+                                          "Salary",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: black,
@@ -469,7 +471,7 @@ class _DailyPageState extends State<DailyPage> {
                                           height: 5,
                                         ),
                                         Text(
-                                          "Loan for the Car",
+                                          "Salary from Apple",
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: black.withOpacity(0.5),
@@ -484,7 +486,7 @@ class _DailyPageState extends State<DailyPage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "\$400",
+                                        "\$2000",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,

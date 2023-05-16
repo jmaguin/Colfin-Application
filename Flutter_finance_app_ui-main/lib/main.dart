@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/pages/home_page.dart';
 import 'package:flutter_finance_app/pages/login_page.dart';
-import 'package:flutter_finance_app/pages/log_page.dart';
+import 'package:flutter_finance_app/pages/transection_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
-        fontFamily: GoogleFonts.roboto().fontFamily,
+      fontFamily: GoogleFonts.poppins().fontFamily,
       ),
       home: LoginPage(),
     );
