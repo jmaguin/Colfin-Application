@@ -1,12 +1,12 @@
 class Purchase {
-  int id;
+  final int id;
   final String name;
   final double price;
   final String category;
-  final DateTime createdAt;
+  final int createdAt;
 
-  Purchase({
-    this.id = 0,
+  const Purchase({
+    required this.id,
     required this.name,
     required this.price,
     required this.category,
@@ -27,6 +27,6 @@ class Purchase {
   // Print info about purchase
   @override
   String toString() {
-    return 'Purchase{ID: $id, Name: $name, Price: $price, Category: $category, Created At: ${createdAt.hour}:${createdAt.minute}}';
+    return 'ID: $id\nName: $name\nPrice: $price\nCategory: $category\nCreated At: $createdAt';
   }
 }
