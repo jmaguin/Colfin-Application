@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:flutter_finance_app/purchase.dart';
 
 // Persistent data
 // Stores all purchase information
@@ -14,7 +15,7 @@ class Database {
         name TEXT,
         price INTEGER,
         category TEXT,
-        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        createdAt INTEGER,
       )
       """);
   }
@@ -32,20 +33,31 @@ class Database {
 
   // Add purchase to database
   // Return ID of purchase
-  static Future<int> addPurchase(
-      String name, double price, String category) async {
+  static Future<void> addPurchase(Purchase p) async {
     final db = await Database.db();
 
-    final data = {'name': name, 'price': price, 'category': category};
-    final id = await db.insert('items', data,
+    await db.insert('items', p.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
-    return id;
   }
 
   // Return all purchases in database
-  static Future<List<Map<String, dynamic>>> getPurchase() async {
+  Future<List<Purchase>> getPurchases() async {
+    // Get a reference to the database.
     final db = await Database.db();
-    return db.query('items', orderBy: "id");
+
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('items');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return Purchase(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        price: maps[i]['price'],
+        category: maps[i]['category'],
+        createdAt: maps[i]['createdAt'],
+      );
+    });
   }
 
   // Get single purchase by ID
@@ -62,23 +74,6 @@ class Database {
         where: "category = ?", whereArgs: [category], orderBy: "id");
   }
 
-  // Update purchase by ID
-  static Future<int> updateItem(
-      int id, String name, double price, String category) async {
-    final db = await Database.db();
-
-    final data = {
-      'name': name,
-      'price': price,
-      'category': category,
-      'createdAt': DateTime.now().toString()
-    };
-
-    final result =
-        await db.update('items', data, where: "id = ?", whereArgs: [id]);
-    return result;
-  }
-
   // Delete purchase from database
   static Future<void> deletePurchase(int id) async {
     final db = await Database.db();
@@ -86,6 +81,16 @@ class Database {
       await db.delete("items", where: "id = ?", whereArgs: [id]);
     } catch (err) {
       debugPrint("ERROR: Unable to delete purchase. $err");
+    }
+  }
+
+  // Delete all purchases from database
+  static Future<void> deleteAllPurchases() async {
+    final db = await Database.db();
+    try {
+      await db.delete("items");
+    } catch (err) {
+      debugPrint("ERROR: Unable to delete purchases. $err");
     }
   }
 }
