@@ -5,7 +5,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 //import 'package:syncfusion_flutter_charts/charts.dart';
+// A method that retrieves all the dogs from the dogs table.
+
 class ChartData {
         ChartData(this.x, this.y);
         final String x;
@@ -17,164 +23,7 @@ class TransectionPage extends StatefulWidget {
   @override
   State<TransectionPage> createState() => _TransectionPageState();
 }
-/*class _TransectionPageState extends State<TransectionPage> {
-  /*Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   leading: Icon(CupertinoIcons.back,color: black,),
-      //   actions: [Icon(CupertinoIcons.search,color: black,)],
-      //   backgroundColor: primary,elevation: 0,),
-      backgroundColor: primary,
-      body: getBody(),
-    );
-  }*/
- 
-    /*Widget build(BuildContext context) {
-        return Scaffold(
-            body: Center(
-                child: Container(
-                    child: SfCartesianChart(
-                        title: ChartTitle(text: 'Half yearly sales analysis'),
-                        // Initialize category axis
-                        primaryXAxis: CategoryAxis(),
-                        series: <ChartSeries>[
-                            // Initialize line series
-                            LineSeries<ChartData, String>(
-                                dataSource: [
-                                    // Bind data source
-                                    ChartData('Jan', 0),
-                                    ChartData('Feb', 0),
-                                    ChartData('Mar', 0),
-                                    ChartData('Apr', 0),
-                                    ChartData('May', 0)
-                                ],
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                // Render the data label
-                                dataLabelSettings:DataLabelSettings(isVisible : true)
-                            )
-                        ]
-                    )
-                )
-            )
-        );
-    }*/
 
-
-  Widget getBody() {
-    var size = MediaQuery.of(context).size;
-
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            /*child: SfCartesianChart(
-                        title: ChartTitle(text: 'Half yearly sales analysis'),
-                        // Initialize category axis
-                        primaryXAxis: CategoryAxis(),
-                        series: <ChartSeries>[
-                            // Initialize line series
-                            LineSeries<ChartData, String>(
-                                dataSource: [
-                                    // Bind data source
-                                    ChartData('Jan', 0),
-                                    ChartData('Feb', 0),
-                                    ChartData('Mar', 0),
-                                    ChartData('Apr', 0),
-                                    ChartData('May', 0)
-                                ],
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                // Render the data label
-                                dataLabelSettings:DataLabelSettings(isVisible : true)
-                            )
-                        ]
-                        ),*/
-            decoration: BoxDecoration(color: primary, boxShadow: [
-              BoxShadow(
-                  color: grey.withOpacity(0.01),
-                  spreadRadius: 10,
-                  blurRadius: 3)
-            ]),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: 20, bottom: 25, right: 20, left: 20),
-              child: Column(
-                children: [
-                 /* SfCartesianChart(
-                        title: ChartTitle(text: 'Half yearly sales analysis'),
-                        // Initialize category axis
-                        primaryXAxis: CategoryAxis(),
-                        series: <ChartSeries>[
-                            // Initialize line series
-                            LineSeries<ChartData, String>(
-                                dataSource: [
-                                    // Bind data source
-                                    ChartData('Jan', 0),
-                                    ChartData('Feb', 0),
-                                    ChartData('Mar', 0),
-                                    ChartData('Apr', 0),
-                                    ChartData('May', 0)
-                                ],
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                // Render the data label
-                                dataLabelSettings:DataLabelSettings(isVisible : true)
-                            )
-                        ]
-                        ),*/
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(CupertinoIcons.back),
-                      Icon(CupertinoIcons.search)
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Daily Spending:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: Colors.black,
-                    )
-                  ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Limit:",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: Colors.black,
-                    )
-                  ),
-                
-              ]
-            )
-          ),
-        ]
-        ),
-        ),
-    );
-  }
-}*/
 class _TransectionPageState extends State<TransectionPage> {
   @override
   Widget build(BuildContext context) {
@@ -189,7 +38,7 @@ class _TransectionPageState extends State<TransectionPage> {
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
+    //var size = MediaQuery.of(context).size;
 
     return SafeArea(
         child: SingleChildScrollView(
@@ -240,9 +89,38 @@ class _TransectionPageState extends State<TransectionPage> {
             )
           ),
                   SfCartesianChart(
+                    enableAxisAnimation: true,
+                    
                         title: ChartTitle(text: "This year's spending vs last year"),
                         // Initialize category axis
-                        primaryXAxis: CategoryAxis(),
+                        primaryXAxis: CategoryAxis(
+
+
+                          title: AxisTitle(
+                            text: 'Month',
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                                fontFamily: 'TimesNewRoman',
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w300
+                            )
+                          )
+                        ),
+                        
+                        primaryYAxis: NumericAxis(
+                          interval: 5,
+                          title: AxisTitle(
+                            text: 'Spending',
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                                fontFamily: 'TimesNewRoman',
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w300
+                            )
+                          )
+                        ),
                         series: <ChartSeries>[
                             // Initialize line series
                             LineSeries<ChartData, String>(
@@ -259,7 +137,7 @@ class _TransectionPageState extends State<TransectionPage> {
                                     ChartData('Jul', 9),
                                     ChartData('Aug', 17),
                                     ChartData('Sep', 13),
-                                    ChartData('Oct', 22),
+                                    ChartData('Oct', 42),
                                     ChartData('Nov', 10),
                                     ChartData('Dec', 18)
                                 ],
@@ -294,9 +172,36 @@ class _TransectionPageState extends State<TransectionPage> {
                         ]
                     ),
                     SfCartesianChart(
+                        enableAxisAnimation: true,
                         title: ChartTitle(text: "This month's spending"),
+                         
                         // Initialize category axis
-                        primaryXAxis: CategoryAxis(),
+                        primaryXAxis: CategoryAxis(
+                          title: AxisTitle(
+                            text: 'Dates',
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                                fontFamily: 'TimesNewRoman',
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w300
+                            )
+                          )
+                        ),
+                        primaryYAxis: NumericAxis(
+                          interval: 5,
+                          title: AxisTitle(
+                            text: 'Spending',
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                                fontFamily: 'TimesNewRoman',
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w300
+                            )
+                          )
+                        ),
+                        
                         series: <ChartSeries>[
                             // Initialize line series
                             LineSeries<ChartData, String>(
@@ -310,17 +215,11 @@ class _TransectionPageState extends State<TransectionPage> {
                                 xValueMapper: (ChartData data, _) => data.x,
                                 yValueMapper: (ChartData data, _) => data.y,
                                 // Render the data label
+                               
                                 dataLabelSettings:DataLabelSettings(isVisible : true)
                             )
                         ]
                     ),
-                  /*Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(CupertinoIcons.back),
-                      Icon(CupertinoIcons.search)
-                    ],
-                  ),*/
                 ],
               ),
             ),
