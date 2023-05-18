@@ -14,6 +14,9 @@ class _LogPageState extends State<LogPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
+  // String to store text
+  String textHolder = "";
+
   // List to store items in dropdown menu
   String dropDownText = "Food";
   List<String> dropDownItems = [
@@ -96,6 +99,7 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
+                key: Key("nameField"),
                 controller: nameController,
                 obscureText: false,
                 textAlign: TextAlign.left,
@@ -134,6 +138,7 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
+                key: Key("priceField"),
                 controller: priceController,
                 obscureText: false,
                 textAlign: TextAlign.left,
@@ -197,10 +202,27 @@ class _LogPageState extends State<LogPage> {
           ),
           // Add item Button --------------------------------------------------
           GestureDetector(
+            key: Key("addItemButton"),
             onTap: () async {
               // parse() converts string to double
               int id = await Database.addPurchase(nameController.text,
                   double.parse(priceController.text), dropDownText);
+
+              setState(() {
+                textHolder = "Name: " +
+                    nameController.text +
+                    ", Price: " +
+                    priceController.text +
+                    ", Category: " +
+                    dropDownText;
+              });
+
+              print("Name: " +
+                  nameController.text +
+                  ", Price: " +
+                  priceController.text +
+                  ", Category: " +
+                  dropDownText);
             },
             child: Container(
               padding: EdgeInsets.all(16),
@@ -216,6 +238,23 @@ class _LogPageState extends State<LogPage> {
                       fontWeight: FontWeight.w600),
                 ),
               ),
+            ),
+          ),
+
+          // Text to display
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 20, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(textHolder,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: mainFontColor,
+                    )),
+              ],
             ),
           ),
         ],
