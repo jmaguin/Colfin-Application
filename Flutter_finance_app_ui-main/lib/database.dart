@@ -54,6 +54,14 @@ class Database {
     return db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
   }
 
+  // Get all purchases in specified category
+  static Future<List<Map<String, dynamic>>> getPurchaseByCategory(
+      String category) async {
+    final db = await Database.db();
+    return db.query('items',
+        where: "category = ?", whereArgs: [category], orderBy: "id");
+  }
+
   // Update purchase by ID
   static Future<int> updateItem(
       int id, String name, double price, String category) async {
