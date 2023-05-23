@@ -32,7 +32,6 @@ class Database {
   }
 
   // Add purchase to database
-  // Return ID of purchase
   static Future<void> addPurchase(Purchase p) async {
     final db = await Database.db();
 
@@ -41,14 +40,16 @@ class Database {
   }
 
   // Return all purchases in database
-  Future<List<Purchase>> getPurchases() async {
-    // Get a reference to the database.
+  // Orders returned List<Purchase> by creation time
+  static Future<List<Purchase>> getPurchases() async {
+    // Reference database
     final db = await Database.db();
 
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('items');
+    // Query table for all purchases
+    final List<Map<String, dynamic>> maps =
+        await db.query('items', orderBy: "createdAt");
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    // Convert List<Map<String, dynamic> -> List<Purchase>
     return List.generate(maps.length, (i) {
       return Purchase(
         id: maps[i]['id'],
@@ -61,17 +62,47 @@ class Database {
   }
 
   // Get single purchase by ID
-  static Future<List<Map<String, dynamic>>> getPurchaseByID(int id) async {
+  // Orders returned List<Purchase> by creation time
+  static Future<List<Purchase>> getPurchaseByID(int id) async {
+    // Reference database
     final db = await Database.db();
-    return db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
+
+    // Query table for matching purchase
+    final List<Map<String, dynamic>> maps =
+        await db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
+
+    // Convert List<Map<String, dynamic> -> List<Purchase>
+    return List.generate(maps.length, (i) {
+      return Purchase(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        price: maps[i]['price'],
+        category: maps[i]['category'],
+        createdAt: maps[i]['createdAt'],
+      );
+    });
   }
 
   // Get all purchases in specified category
-  static Future<List<Map<String, dynamic>>> getPurchaseByCategory(
-      String category) async {
+  // Orders returned List<Purchase> by creation time
+  static Future<List<Purchase>> getPurchaseByCategory(String category) async {
+    // Reference database
     final db = await Database.db();
-    return db.query('items',
-        where: "category = ?", whereArgs: [category], orderBy: "id");
+
+    // Query table for matching purchases
+    final List<Map<String, dynamic>> maps = await db.query('items',
+        where: "category = ?", whereArgs: [category], orderBy: "createdAt");
+
+    // Convert List<Map<String, dynamic> -> List<Purchase>
+    return List.generate(maps.length, (i) {
+      return Purchase(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        price: maps[i]['price'],
+        category: maps[i]['category'],
+        createdAt: maps[i]['createdAt'],
+      );
+    });
   }
 
   // Delete purchase from database
