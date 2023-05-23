@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/database.dart';
@@ -59,8 +58,6 @@ class _LogPageState extends State<LogPage> {
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
-
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(
@@ -104,7 +101,7 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
-                key: Key("nameField"),
+                key: const Key("nameField"),
                 controller: nameController,
                 obscureText: false,
                 textAlign: TextAlign.left,
@@ -143,7 +140,7 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
-                key: Key("priceField"),
+                key: const Key("priceField"),
                 controller: priceController,
                 obscureText: false,
                 textAlign: TextAlign.left,
@@ -207,9 +204,8 @@ class _LogPageState extends State<LogPage> {
           ),
           // Add item Button --------------------------------------------------
           GestureDetector(
-            key: Key("addItemButton"),
+            key: const Key("addItemButton"),
             onTap: () async {
-              print("BUtton PREssed!!!\n\n\n");
               //Instantiate purchase object
               var purchase = Purchase(
                   id: idCounter,
@@ -226,8 +222,8 @@ class _LogPageState extends State<LogPage> {
               });
             },
             child: Container(
-              padding: EdgeInsets.all(16),
-              margin: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
               decoration: BoxDecoration(
                   color: buttoncolor, borderRadius: BorderRadius.circular(25)),
               child: const Center(
