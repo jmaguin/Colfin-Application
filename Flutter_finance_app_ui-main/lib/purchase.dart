@@ -29,4 +29,34 @@ class Purchase {
   String toString() {
     return 'ID: $id\nName: $name\nPrice: $price\nCategory: $category\nCreated At: $createdAt';
   }
+
+  // Overload == operator
+  @override
+  bool operator ==(Object other) {
+    if (other is Purchase) {
+      return id == other.id &&
+          name == other.name &&
+          price == other.price &&
+          category == other.category &&
+          createdAt == other.createdAt;
+    }
+    return false;
+  }
+
+  // Overload < operator
+  @override
+  bool operator <(Purchase other) {
+    if (price > other.price) return false;
+    return true;
+  }
+
+  // Overload > operator
+  @override
+  bool operator >(Purchase other) {
+    if (price < other.price) return false;
+    return true;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
 }
