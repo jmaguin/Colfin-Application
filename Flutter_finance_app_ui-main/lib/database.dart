@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:flutter_finance_app/purchase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Persistent data
 // Stores all purchase information
@@ -13,7 +14,7 @@ class Database {
     await database.execute("""CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name TEXT,
-        price INTEGER,
+        price REAL,
         category TEXT,
         createdAt INTEGER,
       )
@@ -37,6 +38,8 @@ class Database {
 
     await db.insert('items', p.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
+
+    incrementItemCount();
   }
 
   // Return all purchases in database
@@ -62,8 +65,8 @@ class Database {
   }
 
   // Get single purchase by ID
-  // Orders returned List<Purchase> by creation time
-  static Future<List<Purchase>> getPurchaseByID(int id) async {
+  // Converts List<Map<String, dynamic> -> List<Purchase> -> Purchase
+  static Future<Purchase> getPurchaseByID(int id) async {
     // Reference database
     final db = await Database.db();
 
@@ -71,8 +74,10 @@ class Database {
     final List<Map<String, dynamic>> maps =
         await db.query('items', where: "id = ?", whereArgs: [id], limit: 1);
 
+    // if (maps.isEmpty) return null;
+
     // Convert List<Map<String, dynamic> -> List<Purchase>
-    return List.generate(maps.length, (i) {
+    List<Purchase> pList = List.generate(maps.length, (i) {
       return Purchase(
         id: maps[i]['id'],
         name: maps[i]['name'],
@@ -81,6 +86,9 @@ class Database {
         createdAt: maps[i]['createdAt'],
       );
     });
+
+    // Return Purchase from List<Purchase>
+    return pList.elementAt(0);
   }
 
   // Get all purchases in specified category
@@ -93,6 +101,8 @@ class Database {
     final List<Map<String, dynamic>> maps = await db.query('items',
         where: "category = ?", whereArgs: [category], orderBy: "createdAt");
 
+    // if (maps.isEmpty) return null;
+
     // Convert List<Map<String, dynamic> -> List<Purchase>
     return List.generate(maps.length, (i) {
       return Purchase(
@@ -105,6 +115,20 @@ class Database {
     });
   }
 
+  // Update purchase
+  static Future<void> updatePurchase(Purchase p) async {
+    // Reference database
+    final db = await Database.db();
+
+    await db.update(
+      'items',
+      p.toMap(),
+      // Find matching ID
+      where: 'id = ?',
+      whereArgs: [p.id],
+    );
+  }
+
   // Delete purchase from database
   static Future<void> deletePurchase(int id) async {
     final db = await Database.db();
@@ -113,15 +137,34 @@ class Database {
     } catch (err) {
       debugPrint("ERROR: Unable to delete purchase. $err");
     }
+
+    decrementItemCount();
   }
 
-  // Delete all purchases from database
+  // Delete purchase from database
   static Future<void> deleteAllPurchases() async {
     final db = await Database.db();
     try {
       await db.delete("items");
     } catch (err) {
-      debugPrint("ERROR: Unable to delete purchases. $err");
+      debugPrint("ERROR: Unable to delete purchase. $err");
     }
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('itemCount', 0);
+  }
+
+  static void incrementItemCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    int itemCount = prefs.getInt('itemCount') ?? 0;
+    itemCount++;
+    prefs.setInt('itemCount', itemCount);
+  }
+
+  static void decrementItemCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    int itemCount = prefs.getInt('itemCount') ?? 0;
+    itemCount--;
+    prefs.setInt('itemCount', itemCount);
   }
 }
