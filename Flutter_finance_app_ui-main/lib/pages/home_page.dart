@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/pages/daily_page.dart';
 import 'package:flutter_finance_app/pages/log_page.dart';
 import 'package:flutter_finance_app/pages/transection_page.dart';
+import 'package:flutter_finance_app/pages/data_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,13 +19,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
 
-  
-List<Widget> pages = [
+  List<Widget> pages = [
     DailyPage(),
     TransectionPage(),
+    DataPage(),
+    TransectionPage(),
     LogPage(),
-    TransectionPage(),
-    TransectionPage(),
   ];
 
   @override
@@ -38,7 +38,9 @@ List<Widget> pages = [
           // height: 30,
           // width: 40,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              setTabs(4);
+            },
             child: Icon(
               Icons.add,
               size: 20,
@@ -54,7 +56,7 @@ List<Widget> pages = [
   }
 
   Widget getBody() {
-     return IndexedStack(
+    return IndexedStack(
       index: pageIndex,
       children: pages,
     );
@@ -68,8 +70,8 @@ List<Widget> pages = [
       CupertinoIcons.person,
     ];
     return AnimatedBottomNavigationBar(
-       backgroundColor: primary,
-       icons: iconItems,
+        backgroundColor: primary,
+        icons: iconItems,
         splashColor: secondary,
         inactiveColor: black.withOpacity(0.5),
         gapLocation: GapLocation.center,

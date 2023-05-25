@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/database.dart';
+import 'package:flutter_finance_app/purchase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -25,6 +27,8 @@ class _LogPageState extends State<LogPage> {
     "Textbooks",
     "Utilities",
     "Other",
+    "Received Funds",
+    "Sent Funds",
   ];
 
   // Constructor
@@ -54,20 +58,18 @@ class _LogPageState extends State<LogPage> {
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
-
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 110, right: 25, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("Log Purchase",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -84,7 +86,7 @@ class _LogPageState extends State<LogPage> {
             padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("Item:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -99,11 +101,11 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
-                key: Key("nameField"),
+                key: const Key("nameField"),
                 controller: nameController,
                 obscureText: false,
                 textAlign: TextAlign.left,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Enter Name',
                   hintStyle: TextStyle(
@@ -123,7 +125,7 @@ class _LogPageState extends State<LogPage> {
                 const EdgeInsets.only(left: 25, right: 25, top: 20, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("Price:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -138,11 +140,11 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: TextField(
-                key: Key("priceField"),
+                key: const Key("priceField"),
                 controller: priceController,
                 obscureText: false,
                 textAlign: TextAlign.left,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Enter Price',
                   hintStyle: TextStyle(
@@ -162,7 +164,7 @@ class _LogPageState extends State<LogPage> {
                 const EdgeInsets.only(left: 25, right: 25, top: 20, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("Category:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -202,34 +204,31 @@ class _LogPageState extends State<LogPage> {
           ),
           // Add item Button --------------------------------------------------
           GestureDetector(
-            key: Key("addItemButton"),
+            key: const Key("addItemButton"),
             onTap: () async {
-              // parse() converts string to double
-              int id = await Database.addPurchase(nameController.text,
-                  double.parse(priceController.text), dropDownText);
+              // Get item count
+              final prefs = await SharedPreferences.getInstance();
+              final itemCount = prefs.getInt('itemCount') ?? 0;
+
+              //Instantiate purchase object
+              var purchase = Purchase(
+                  id: itemCount,
+                  name: nameController.text,
+                  price: double.parse(priceController.text).toDouble(),
+                  category: dropDownText,
+                  createdAt: DateTime.now().millisecondsSinceEpoch);
+              await Database.addPurchase(purchase);
 
               setState(() {
-                textHolder = "Name: " +
-                    nameController.text +
-                    ", Price: " +
-                    priceController.text +
-                    ", Category: " +
-                    dropDownText;
+                textHolder = purchase.toString();
               });
-
-              print("Name: " +
-                  nameController.text +
-                  ", Price: " +
-                  priceController.text +
-                  ", Category: " +
-                  dropDownText);
             },
             child: Container(
-              padding: EdgeInsets.all(16),
-              margin: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
               decoration: BoxDecoration(
                   color: buttoncolor, borderRadius: BorderRadius.circular(25)),
-              child: Center(
+              child: const Center(
                 child: Text(
                   "Add Item",
                   style: TextStyle(
@@ -249,7 +248,7 @@ class _LogPageState extends State<LogPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(textHolder,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                       color: mainFontColor,
