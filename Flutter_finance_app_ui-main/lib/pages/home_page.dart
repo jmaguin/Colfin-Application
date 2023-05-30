@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/pages/daily_page.dart';
-import 'package:flutter_finance_app/pages/transection_page.dart';
+import 'package:flutter_finance_app/pages/log_page.dart';
+import 'package:flutter_finance_app/pages/coupon_page.dart';
+//import 'package:flutter_finance_app/pages/transection_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
+import 'package:flutter_finance_app/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,10 +23,10 @@ class _HomePageState extends State<HomePage> {
   
 List<Widget> pages = [
     DailyPage(),
-    TransectionPage(),
-    TransectionPage(),
-    TransectionPage(),
-    TransectionPage(),
+    CouponPage(),
+    LogPage(),
+    SettPage(),
+    CouponPage(),
   ];
 
   @override
@@ -37,7 +40,14 @@ List<Widget> pages = [
           // height: 30,
           // width: 40,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LogPage(),
+                            ),
+                          );
+            },
             child: Icon(
               Icons.add,
               size: 20,
@@ -68,6 +78,7 @@ List<Widget> pages = [
     ];
     return AnimatedBottomNavigationBar(
        backgroundColor: primary,
+       key: Key('bottom'),
        icons: iconItems,
         splashColor: secondary,
         inactiveColor: black.withOpacity(0.5),

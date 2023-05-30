@@ -5,15 +5,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_finance_app/pages/constants.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_finance_app/pages/home_page.dart';
 
-class TransectionPage extends StatefulWidget {
-  const TransectionPage({super.key});
+class CouponPage extends StatefulWidget {
+  const CouponPage({super.key});
 
   @override
-  State<TransectionPage> createState() => _TransectionPageState();
+  State<CouponPage> createState() => _CouponPageState();
 }
 
-class _TransectionPageState extends State<TransectionPage> {
+class _CouponPageState extends State<CouponPage> {
   late Future<List<ApiConstant>> futureAlbum;
   int numList = 0;
   bool avail = false;
@@ -65,8 +66,19 @@ class _TransectionPageState extends State<TransectionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(CupertinoIcons.back),
-                      Icon(CupertinoIcons.search)
+                      GestureDetector(
+                        onTap: () {
+                          // Navigate to another page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
+                        child: Icon(CupertinoIcons.back),
+                      ),
+                      Icon(CupertinoIcons.search),
                     ],
                   ),
                 ],
@@ -189,7 +201,7 @@ class _TransectionPageState extends State<TransectionPage> {
               ],
             ),
           ),
-          Row(
+           Row(
   children: [
     Expanded(
       child: FutureBuilder<List<ApiConstant>>(
@@ -248,7 +260,7 @@ class _TransectionPageState extends State<TransectionPage> {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "Amount of Savings: ${album.savings}%",
+                                  "Amount of Savings: ${(double.parse(album.savings)).toStringAsFixed(0)}%",
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.black.withOpacity(0.5),
@@ -292,7 +304,6 @@ class _TransectionPageState extends State<TransectionPage> {
     ),
   ],
 ),
-
 
           //  Row(
           //         children: [
@@ -573,6 +584,7 @@ class _TransectionPageState extends State<TransectionPage> {
                 //     ),
                 //   ],
                 // ),
+
         ],
       ),
     ));

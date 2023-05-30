@@ -39,8 +39,6 @@ Future<List<ApiConstant>> fetchAlbum() async {
   }
 }
 
-
-//https://27coupons.p.rapidapi.com/coupons/trending/nye30a14KDwLNHEp5UJlHHhW28nlr59n
 class ApiConstant {
   final String title;
   final String salePrice;
