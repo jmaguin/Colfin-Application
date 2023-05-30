@@ -7,6 +7,8 @@ import 'package:flutter_finance_app/pages/daily_page.dart';
 import 'package:flutter_finance_app/pages/log_page.dart';
 import 'package:flutter_finance_app/pages/coupon_page.dart';
 //import 'package:flutter_finance_app/pages/transection_page.dart';
+//import 'package:flutter_finance_app/pages/transection_page.dart';
+import 'package:flutter_finance_app/pages/data_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/pages/settings_page.dart';
 
@@ -20,9 +22,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
 
-  
-List<Widget> pages = [
+  List<Widget> pages = [
     DailyPage(),
+
     CouponPage(),
     LogPage(),
     SettPage(),
@@ -41,12 +43,14 @@ List<Widget> pages = [
           // width: 40,
           child: FloatingActionButton(
             onPressed: () {
+
               Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => LogPage(),
                             ),
                           );
+              setTabs(4);
             },
             child: Icon(
               Icons.add,
@@ -63,7 +67,7 @@ List<Widget> pages = [
   }
 
   Widget getBody() {
-     return IndexedStack(
+    return IndexedStack(
       index: pageIndex,
       children: pages,
     );
@@ -77,6 +81,7 @@ List<Widget> pages = [
       CupertinoIcons.person,
     ];
     return AnimatedBottomNavigationBar(
+
        backgroundColor: primary,
        key: Key('bottom'),
        icons: iconItems,

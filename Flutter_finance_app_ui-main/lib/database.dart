@@ -64,6 +64,16 @@ class Database {
   //   );
   // }).toList();
   // return dataObjects;
+    // Convert List<Map<String, dynamic> -> List<Purchase>
+    // return List.generate(maps.length, (i) {
+    //   return Purchase(
+    //     id: maps[i]['id'],
+    //     name: maps[i]['name'],
+    //     price: maps[i]['price'],
+    //     category: maps[i]['category'],
+    //     createdAt: maps[i]['createdAt'],
+    //   );
+    // });
   }
 
   // Get single purchase by ID

@@ -1,5 +1,15 @@
+5 Pages in App:
+  - daily page
+  - home page
+  - log page
+  - login page
+  - transaction page
 
-Home page & Coupons page
+-------Set Up-------
+Since the app is still in development phase, the program is only executable on an emulator. Install Android & Ios emulator extension on VScode or Android Studio. With the emulator opened, run the main.dart file located in flutter_finance_app_ui-main/lib. 
+-------Dependencies-------
+All the dependencies required for the program to run should already by included inside the pubspec.yaml file. If any dependencies do not work, please use the command flutter pub add <dependency>.
+-------Home page & Coupons page-------
 
 Home Page Description:
 Users are directed to this page after log in. Home page gives users an overview of their spendings and funds available. Users will have the choice to other pages by navigating the icon bar at the bottom or interact with the icons at the top. 
@@ -17,43 +27,35 @@ Coupons Page Functionalities:
 - Click on coupon box to navigate to the shop website.
 
 
-5 Pages in App:
-  - daily page
-  - home page
-  - log page
-  - login page
-  - transaction page
+-------Database-------
 
 This app uses a persistent SQLite database to store all input purchases in a
 List<Map> format. This database contains all information that various app pages
 pull from to make their graphics and tables.
 
 Database Functionality:
-- database defined in "Database.dart"
+- database defined in "database.dart"
 - functions to interact w/ database:
-    addPurchase(String name, double price, String category)
+    Future<void> addPurchase(Purchase p)
       ~ adds a purchase to database
-      ~ returns ID of purchase in database
-      ~ return type: int
 
-    getPurchase()
+    Future<List<Purchase>> getPurchases()
       ~ returns all purchases in database
       ~ Refer to Step 6: https://docs.flutter.dev/cookbook/persistence/sqlite
-      ~ return type: List<Map<String, dynamic>>
+      ~ List ordered by creation time
 
-    getPurchaseByID(int id)
+    Future<List<Purchase>> getPurchaseByID(int id)
       ~ returns a single purchase by ID
-      ~ return type: List<Map<String, dynamic>>
 
-    updateItem(int id, String name, double price, String category)
-      ~ updates a purchase specified by ID
-      ~ returns ID of purchase
-      ~ return type: int
+    Future<List<Purchase>> getPurchaseByCategory(String category)
+      ~ returns all purchases in specified category
+      ~ List ordered by creation time
 
-    deletePurchase(int id)
+    Future<void> deletePurchase(int id)
       ~ deletes purchase from database
-      ~ return type: void
 
+    Future<void> deleteAllPurchases()
+      ~ deletes all purchases from database
 
 
 
