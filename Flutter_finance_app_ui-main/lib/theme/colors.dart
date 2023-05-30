@@ -11,3 +11,5 @@ const Color blue = Color(0xFF28c2ff);
 const Color buttoncolor = Color(0xff3e4784);
 const Color mainFontColor = Color(0xff565c95);
 const Color arrowbgColor = Color(0xffe4e9f7);
+const Color settBack = Color.fromARGB(255, 79, 79, 185);
+const Color ccFontColor = Color.fromARGB(255, 183, 192, 250);
