@@ -44,7 +44,38 @@ class Database {
 
   // Return all purchases in database
   // Orders returned List<Purchase> by creation time
-  static Future<List<Map<String, dynamic>>> getPurchases() async {
+
+  static Future<List<Purchase>> getPurchases() async {
+    // Reference database
+    final db = await Database.db();
+
+    // Query table for all purchases
+    final List<Map<String, dynamic>> maps =
+        await db.query('items', orderBy: "createdAt");
+
+    // Convert List<Map<String, dynamic> -> List<Purchase>
+    List<Purchase> dataObjects = maps.map((purchase) {
+    return Purchase(
+      id: purchase['id'].toInt(),
+      name: purchase['name'].toString(),
+      price: purchase['price'].toDouble(),
+      category: purchase['category'].toString(),
+      createdAt: purchase['createdAt'].toInt()
+    );
+  }).toList();
+  return dataObjects;
+    // Convert List<Map<String, dynamic> -> List<Purchase>
+    // return List.generate(maps.length, (i) {
+    //   return Purchase(
+    //     id: maps[i]['id'],
+    //     name: maps[i]['name'],
+    //     price: maps[i]['price'],
+    //     category: maps[i]['category'],
+    //     createdAt: maps[i]['createdAt'],
+    //   );
+    // });
+  }
+  static Future<List<Map<String, dynamic>>> getPurchases_2() async {
     // Reference database
     final db = await Database.db();
 
@@ -75,7 +106,6 @@ class Database {
     //   );
     // });
   }
-
   // Get single purchase by ID
   // Converts List<Map<String, dynamic> -> List<Purchase> -> Purchase
   static Future<Purchase> getPurchaseByID(int id) async {
