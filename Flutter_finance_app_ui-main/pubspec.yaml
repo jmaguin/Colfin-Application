@@ -32,7 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-    
+  # For SfCartesianChart in graph_page
+  syncfusion_flutter_charts: ^21.2.8
+
   # Enable persistent databases
   sqflite:
   path:
