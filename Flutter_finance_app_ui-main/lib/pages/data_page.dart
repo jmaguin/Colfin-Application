@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
@@ -13,19 +14,26 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   late Future<List<Purchase>> futurePurchase;
+  Timer? timer;
 
   int numList = 0;
   bool avail = false;
   @override
   void initState() {
     super.initState();
-    try {
-      futurePurchase = Database.getPurchases();
+    futurePurchase = Database.getPurchases();
 
-      avail = true;
-    } catch (e) {
-      avail = false;
-    }
+    startTimer();
+  }
+
+  void startTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {
+        futurePurchase = Database.getPurchases();
+      });
+    });
   }
 
   @override
