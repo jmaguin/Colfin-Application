@@ -88,6 +88,7 @@ class _LogPageState extends State<LogPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Text("Item:",
+                    key: Key("itemText"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -127,6 +128,7 @@ class _LogPageState extends State<LogPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Text("Price:",
+                    key: Key("priceText"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -166,6 +168,7 @@ class _LogPageState extends State<LogPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Text("Category:",
+                    key: Key("categoryText"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -179,6 +182,7 @@ class _LogPageState extends State<LogPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(width: 300),
               child: DropdownButton(
+                key: Key("dropdownButtonText"),
                 // Intialize dropdown item
                 value: dropDownText,
                 // Set Icon for dropdown
@@ -231,6 +235,7 @@ class _LogPageState extends State<LogPage> {
               child: const Center(
                 child: Text(
                   "Add Item",
+                  key: Key("addItemText"),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
