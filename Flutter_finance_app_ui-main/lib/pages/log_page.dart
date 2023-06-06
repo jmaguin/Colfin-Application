@@ -3,6 +3,7 @@ import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/database.dart';
 import 'package:flutter_finance_app/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -214,13 +215,19 @@ class _LogPageState extends State<LogPage> {
               final prefs = await SharedPreferences.getInstance();
               final itemCount = prefs.getInt('itemCount') ?? 0;
 
+              DateTime now = DateTime.now();
               //Instantiate purchase object
               var purchase = Purchase(
                   id: itemCount,
                   name: nameController.text,
                   price: double.parse(priceController.text).toDouble(),
                   category: dropDownText,
-                  createdAt: DateTime.now().millisecondsSinceEpoch);
+                  createdAt: now.millisecondsSinceEpoch,
+                  year: now.year,
+                  month: now.month,
+                  day: now.day,
+                  weekday: DateFormat('EEEE').format(now));
+
               await Database.addPurchase(purchase);
 
               setState(() {
