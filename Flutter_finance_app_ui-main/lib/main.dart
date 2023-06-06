@@ -8,7 +8,7 @@ void main() async {
 
   // Set persistent values
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('itemCount', 0);
+  // await prefs.setInt('itemCount', 0);
   await prefs.setString('profileName', "Eric Huang");
   await prefs.setString('profileRole', "Software Developer");
   await prefs.setString('profileEmail', "yhuang7@scu.edu");
