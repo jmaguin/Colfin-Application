@@ -14,7 +14,7 @@ class GraphPage extends StatefulWidget {
 
 class _GraphPageState extends State<GraphPage> {
   // List to store database data
-  late List<Purchase> purchaseData;
+  late Future<List<Purchase>> purchaseData;
 
   // List to store graph time period options
   String timeDropDownText = "Year";
@@ -40,12 +40,9 @@ class _GraphPageState extends State<GraphPage> {
 
   late TooltipBehavior _tooltipBehavior;
 
-  @override
-  void initState() async {
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    // Get data from database
-    purchaseData = await Database.getPurchases();
-    super.initState();
+  // Constructor
+  _GraphPageState() {
+    purchaseData = Database.getPurchases();
   }
 
   @override
@@ -120,8 +117,8 @@ class _GraphPageState extends State<GraphPage> {
                         timeDropDownText = newValue!;
                       });
 
-                      purchaseData = await Database.getPurchaseRange(
-                          categoryDropDownText, timeDropDownText);
+                      // purchaseData = await Database.getPurchaseRange(
+                      //     categoryDropDownText, timeDropDownText);
                     },
                   ),
                 ),
@@ -148,8 +145,8 @@ class _GraphPageState extends State<GraphPage> {
                       setState(() {
                         categoryDropDownText = newValue!;
                       });
-                      purchaseData = await Database.getPurchaseRange(
-                          categoryDropDownText, timeDropDownText);
+                      // purchaseData = await Database.getPurchaseRange(
+                      //     categoryDropDownText, timeDropDownText);
                     },
                   ),
                 ),
@@ -158,24 +155,24 @@ class _GraphPageState extends State<GraphPage> {
 
             // Graph ---------------------------------------------------
 
-            Center(
-              child: SfCartesianChart(
-                title: ChartTitle(text: 'Spending Trends'),
-                legend: Legend(isVisible: true),
-                tooltipBehavior: _tooltipBehavior,
-                primaryXAxis: CategoryAxis(),
-                // ChartSeries?
-                series: <LineSeries<Purchase, String>>[
-                  LineSeries<Purchase, String>(
-                    animationDuration: 2500,
-                    // Binding list data to the chart.
-                    dataSource: purchaseData,
-                    xValueMapper: (Purchase data, _) => data.weekday,
-                    yValueMapper: (Purchase data, _) => data.price,
-                  ),
-                ],
-              ),
-            ),
+            // Center(
+            //   child: SfCartesianChart(
+            //     title: ChartTitle(text: 'Spending Trends'),
+            //     legend: Legend(isVisible: true),
+            //     tooltipBehavior: _tooltipBehavior,
+            //     primaryXAxis: CategoryAxis(),
+            //     // ChartSeries?
+            //     series: <LineSeries<Purchase, String>>[
+            //       LineSeries<Purchase, String>(
+            //         animationDuration: 2500,
+            //         // Binding list data to the chart.
+            //         dataSource: purchaseData,
+            //         xValueMapper: (Purchase data, _) => data.weekday,
+            //         yValueMapper: (Purchase data, _) => data.price,
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
