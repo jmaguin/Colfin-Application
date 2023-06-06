@@ -20,7 +20,7 @@ class Database {
         year INTEGER,
         month INTEGER,
         day INTEGER,
-        weekday TEXT,
+        weekday TEXT
       )
       """);
   }
@@ -48,6 +48,7 @@ class Database {
 
   // Return all purchases in database
   // Orders returned List<Purchase> by creation time
+  // If no purchases returns empty list
   static Future<List<Purchase>> getPurchases() async {
     // Reference database
     final db = await Database.db();
@@ -56,12 +57,14 @@ class Database {
     final List<Map<String, dynamic>> maps =
         await db.query('items', orderBy: "createdAt");
 
+    if (maps.isEmpty) return <Purchase>[];
+
     // Convert List<Map<String, dynamic> -> List<Purchase>
     return List.generate(maps.length, (i) {
       return Purchase(
         id: maps[i]['id'],
         name: maps[i]['name'],
-        price: maps[i]['price'],
+        price: maps[i]['price'].toDouble(),
         category: maps[i]['category'],
         createdAt: maps[i]['createdAt'],
         year: maps[i]['year'],
