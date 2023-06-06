@@ -7,6 +7,7 @@ import 'package:flutter_finance_app/pages/daily_page.dart';
 import 'package:flutter_finance_app/pages/log_page.dart';
 import 'package:flutter_finance_app/pages/transection_page.dart';
 import 'package:flutter_finance_app/pages/data_page.dart';
+import 'package:flutter_finance_app/pages/graph_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     DailyPage(),
     TransectionPage(),
     DataPage(),
-    TransectionPage(),
+    GraphPage(),
     LogPage(),
   ];
 
