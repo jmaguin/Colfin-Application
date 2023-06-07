@@ -4,10 +4,10 @@ class Purchase {
   final double price;
   final String category;
   final int createdAt;
-  final int? year;
-  final int? month;
-  final int? day;
-  final String? weekday;
+  final int year;
+  final int month;
+  final int day;
+  final String weekday;
 
   const Purchase({
     required this.id,
