@@ -109,8 +109,7 @@ class Database {
   // Get all purchases in specified category and time
   // Orders returned List<Purchase> by creation time
   static Future<List<Purchase>> getPurchaseRange(
-      String categoryDropDownText, String timeDropDownText,
-      {String category = "All", String time = "Year"}) async {
+      String category, String time) async {
     // Reference database
     final db = await Database.db();
 
