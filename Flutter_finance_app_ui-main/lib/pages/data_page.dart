@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/database.dart';
@@ -21,9 +20,12 @@ class _DataPageState extends State<DataPage> {
   @override
   void initState() {
     super.initState();
-    futurePurchase = Database.getPurchases();
-
+    updatePurchases();
     startTimer();
+  }
+
+  void updatePurchases() async {
+    futurePurchase = Database.getPurchases();
   }
 
   void startTimer() {
