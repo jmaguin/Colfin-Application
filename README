@@ -26,6 +26,16 @@ Coupons Page Functionalities:
 - Convert data into JSON format with the following attributes, title, salePrice, and savings, and display it in listview.
 - Click on coupon box to navigate to the shop website.
 
+Graph Page Description
+- 2 graphs on page
+  ~ 1 graph varies dependent on dropdowns (Customizable graph)
+  ~ 2 graph always displays data from current day (Daily graph)
+- 1 dropdown for category, other dropdown for time
+- Daily graph uses list of Purchase objects
+- Customizable graph uses list of DataPoint objects
+  ~ each datapoint represents spending from selected time period
+  ~ ex: User selects month -> datapoint represents each week's spending
+        User selects week -> datapoint represents each day's spending
 
 -------Database-------
 
@@ -35,21 +45,35 @@ pull from to make their graphics and tables.
 
 Database Functionality:
 - database defined in "database.dart"
+- database fields:
+  ~ ID -> ID of purchase
+  ~ name -> name of purchase
+  ~ price -> cost of purchase
+  ~ category -> category of purchase (utilites, food, books, etc)
+  ~ createdAt -> time purchase was added to database (in milliseconds since epoch)
+  ~ year -> year of purchase
+  ~ month -> month of purchase
+  ~ day -> day of purchase
+  ~ weekday -> weekday of purchase
+
 - functions to interact w/ database:
     Future<void> addPurchase(Purchase p)
       ~ adds a purchase to database
 
     Future<List<Purchase>> getPurchases()
       ~ returns all purchases in database
-      ~ Refer to Step 6: https://docs.flutter.dev/cookbook/persistence/sqlite
       ~ List ordered by creation time
 
     Future<List<Purchase>> getPurchaseByID(int id)
       ~ returns a single purchase by ID
 
-    Future<List<Purchase>> getPurchaseByCategory(String category)
-      ~ returns all purchases in specified category
-      ~ List ordered by creation time
+    Future<List<Purchase>> getPurchaseRange(String category, String time)
+      ~ returns all purchases from specified range
+      ~ category -> food, utilities, textbooks, etc
+      ~ time -> year, month, week, day
+
+    Future<void> updatePurchase(Purchase p)
+      ~ updates purchase with matching ID to parameter
 
     Future<void> deletePurchase(int id)
       ~ deletes purchase from database
