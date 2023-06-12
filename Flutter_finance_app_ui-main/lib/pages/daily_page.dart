@@ -9,6 +9,11 @@ import  'package:intl/intl.dart';
 import 'package:flutter_finance_app/database.dart';
 import 'package:flutter_finance_app/pages/data_constant.dart';
 import 'package:flutter_finance_app/pages/settings_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_finance_app/pages/notification.dart';
+import 'package:flutter_finance_app/main.dart';
+
 
 class DailyPage extends StatefulWidget {
   const DailyPage({super.key});
@@ -18,37 +23,69 @@ class DailyPage extends StatefulWidget {
 }
 
 class _DailyPageState extends State<DailyPage> {
+  // final NotificationService nm = NotificationService();
+  String _name = '';
+  String _role = '';
+  String _email = '';
+  double _fund = 0;
+  void initState() {
+    super.initState();
+    loadData();
+    //calcPrice();
+    print(futureAlbumList.length);
+    avail = true;
+
+  }
+
   //late Future<List<DataObj>> futureAlbum;
+  Future<void> loadData() async{
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _name = prefs.getString('profileName')?? "No Data";
+      _role = prefs.getString('profileRole')?? "No Data";
+      _email = prefs.getString('profileEmail')?? "No Data";
+      _fund = prefs.getDouble('profileFund')?? 0;
+    });
+  } 
+  
+
   late List<DataObj> futureAlbumList = [];
   Future<List<DataObj>> futureAlbum = convertPurchaseList();
-  double totalPrice = 0.0;
-  void calcPrice() async{
-    futureAlbumList = await futureAlbum;
-    for (int i = 0; i < futureAlbumList.length; i++){
-      totalPrice += futureAlbumList[i].price;
-    }
-  }
+  double countPrice = 0;
+  // double totalPrice = 0.0;
+  // void calcPrice() async{
+  //   futureAlbumList = await futureAlbum;
+  //   for (int i = 0; i < futureAlbumList.length; i++){
+  //     totalPrice += futureAlbumList[i].price;
+  //   }
+  // }
   
   bool avail = false;
   @override
-  void initState() {
-    super.initState();
-    try{
-      calcPrice();
-      print(futureAlbumList.length);
-      avail = true;
-    }catch(e){
-      avail = false;
-    }
-  }
+  
   
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     var size = MediaQuery.of(context).size;
     String cdate3 = DateFormat("MMM dd, yyyy").format(DateTime.now());
     
     Map iconsList = Map<String, Icons>();
     iconsList = {"Receive" : Icons.arrow_downward, "Send" : Icons.arrow_upward};
+
+    Future<void> navigateToSettPage() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SettPage(),
+      ),
+    );
+    if (ModalRoute.of(context)?.isCurrent == false) {
+      print("refreshed");
+      setState(() {
+        futureAlbum = convertPurchaseList();
+      });
+    }
+  }
     
     return SafeArea(
         child: SingleChildScrollView(
@@ -76,15 +113,7 @@ class _DailyPageState extends State<DailyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [Icon(Icons.bar_chart), 
                     GestureDetector(
-                        onTap: () {
-                          // Navigate to another page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SettPage(),
-                            ),
-                          );
-                        },
+                        onTap: navigateToSettPage,
                         child: Icon(Icons.more_vert),
                         key: Key('Settings'),
                       ),]
@@ -111,7 +140,7 @@ class _DailyPageState extends State<DailyPage> {
                         child: Column(
                           children: [
                             Text(
-                              "Eric Huang",
+                              "$_name",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -122,7 +151,7 @@ class _DailyPageState extends State<DailyPage> {
                               height: 10,
                             ),
                             Text(
-                              "Software Developer",
+                              "$_role",
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -136,7 +165,7 @@ class _DailyPageState extends State<DailyPage> {
                     ],
                   ),
                   SizedBox(
-  height: 50,
+  height: 40,
 ),
 Row(
   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,10 +181,19 @@ Row(
           return Text('No data available');
         } else {
           final dataList = snapshot.data!;
-          final totalPrice = dataList.fold<double>(
+          double totalPrice = dataList.fold<double>(
             0,
             (previousValue, dataObj) => previousValue + dataObj.price,
           );
+          // countPrice = totalPrice;
+
+          print(_fund);
+          final double expense = totalPrice;
+          final double cashAvailable = _fund - expense;
+          final double expenseThreshold = 0.8;
+          if (expense >= expenseThreshold * cashAvailable) {
+            nm.showNotification();
+          }
 
           return Column(
             children: [
@@ -181,38 +219,110 @@ Row(
               ),
             ],
           );
+
         }
       },
     ),
-    Container(
-      width: 0.5,
-      height: 40,
-      color: black.withOpacity(0.3),
+
+
+
+    FutureBuilder<List<DataObj>>(
+      future: futureAlbum,
+      builder: (context, snapshot) {
+        // Existing code...
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Text('No data available');
+        }
+        else {
+          final dataList = snapshot.data!;
+          double countPrice = dataList.fold<double>(
+            0,
+            (previousValue, dataObj) => previousValue + dataObj.price,
+          );
+
+          // Existing code...
+
+          double cashAvailable = _fund - countPrice; // Update cashAvailable here
+
+          return Row(
+            children: [
+              // Container(
+              //   width: 0.5,
+              //   height: 40,
+              //   color: black.withOpacity(0.3),
+              // ),
+              Column(
+                children: [
+                  Text(
+                    "\$${cashAvailable.toStringAsFixed(0)}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: mainFontColor,
+                    ),
+                    key: Key('CashAvail'),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  
+                  ),
+                  Text(
+                    "Cash Available",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w100,
+                      color: black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }
+      },
     ),
-    Column(
-      children: [
-        Text(
-          "\$${(6000 - totalPrice).toStringAsFixed(0)}",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: mainFontColor,
-          ),
-          key: Key('CashAvail'),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          "Cash Available",
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w100,
-            color: black,
-          ),
-        ),
-      ],
-    ),
+
+
+
+
+
+
+
+    // Container(
+    //   width: 0.5,
+    //   height: 40,
+    //   color: black.withOpacity(0.3),
+    // ),
+    // Column(
+    //   children: [
+    //     Text(
+    //       "\$${(_fund - countPrice).toStringAsFixed(0)}",
+    //       style: TextStyle(
+    //         fontSize: 16,
+    //         fontWeight: FontWeight.w600,
+    //         color: mainFontColor,
+    //       ),
+    //       key: Key('CashAvail'),
+    //     ),
+    //     SizedBox(
+    //       height: 5,
+    //     ),
+    //     Text(
+    //       "Cash Available",
+    //       style: TextStyle(
+    //         fontSize: 12,
+    //         fontWeight: FontWeight.w100,
+    //         color: black,
+    //       ),
+    //     ),
+    //   ],
+    // ),
+
+    
   ],
 ),
 

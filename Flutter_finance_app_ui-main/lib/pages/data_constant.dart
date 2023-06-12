@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/database.dart';
 
 Future<List<DataObj>> convertPurchaseList() async {
-  List<Map<String, dynamic>> purchaseList = await Database.getPurchases_2();
+  List<Map<String, dynamic>> purchaseList = await Database.getPurchases2();
 
   List<DataObj> dataObjects = purchaseList.map((purchase) {
     return DataObj(

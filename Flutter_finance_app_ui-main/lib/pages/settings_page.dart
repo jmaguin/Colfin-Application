@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/pages/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_finance_app/profile_constant.dart';
 class SettPage extends StatefulWidget{
 
   const SettPage({super.key});
@@ -14,10 +16,23 @@ class _SettPageState extends State<SettPage>{
   final TextEditingController roleController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController monthlyController = TextEditingController();
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> updateProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setInt('itemCount', 0);
+      prefs.setString('profileName', nameController.text);
+      prefs.setString('profileRole', roleController.text);
+      prefs.setString('profileEmail', emailController.text);
+      prefs.setDouble('profileFund', double.parse(monthlyController.text));
+    });
+
+  }
+
 
 @override
   void dispose() {
@@ -107,8 +122,15 @@ class _SettPageState extends State<SettPage>{
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(settBack),
                         ),
-                        onPressed: () {},
-    
+                        onPressed: () {
+                          updateProfile();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
                         child: Center(
                           child: Text(
                             "Update",

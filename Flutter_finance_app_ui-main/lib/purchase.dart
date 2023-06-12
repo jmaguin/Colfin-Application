@@ -4,6 +4,10 @@ class Purchase {
   final double price;
   final String category;
   final int createdAt;
+  final int year;
+  final int month;
+  final int day;
+  final String weekday;
 
   const Purchase({
     required this.id,
@@ -11,6 +15,10 @@ class Purchase {
     required this.price,
     required this.category,
     required this.createdAt,
+    required this.year,
+    required this.month,
+    required this.day,
+    required this.weekday,
   });
 
   // Convert Purchase into map
@@ -21,6 +29,10 @@ class Purchase {
       'price': price,
       'category': category,
       'createdAt': createdAt,
+      'year': year,
+      'month': month,
+      'day': day,
+      'weekday': weekday,
     };
   }
 

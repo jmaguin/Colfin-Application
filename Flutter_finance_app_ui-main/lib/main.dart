@@ -6,24 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_finance_app/pages/data_constant.dart';
 import 'package:flutter_finance_app/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-void main() async {
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_finance_app/pages/notification.dart';
+final NotificationService nm = NotificationService();
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Set persistent values
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('itemCount', 0);
-  await prefs.setString('profileName', "Eric Huang");
-  await prefs.setString('profileRole', "Software Developer");
-  await prefs.setString('profileEmail', "yhuang7@scu.edu");
-  await prefs.setDouble('profileFund', 6000.00);
+  await nm.initNotification();
+  //await NotificationService().init();
   runApp(const MyApp());
-  // Future<List<DataObj>> test = convertPurchaseList();
-  // List<DataObj> test_list = await test;
-  // static double total = 0;
-  // for(int i = 0; i < test_list.length; i++){
-  //   total += test_list[i].price;
-  // }
 
 }
 class MyApp extends StatelessWidget {
