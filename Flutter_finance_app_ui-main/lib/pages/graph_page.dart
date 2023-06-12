@@ -56,35 +56,27 @@ class _GraphPageState extends State<GraphPage> {
     super.initState();
   }
 
-  initPurchases() async {
-    // purchaseData = await Database.getPurchases();
-  }
-
-  updatePurchases() async {
-    // purchaseData = await Database.getPurchaseRange(categoryDropDownText, timeDropDownText);
-  }
-
+  // Refreshes data set used for building graphs
+  // Called when dropdown changes
   buildDataSet() async {
-    //   purchaseData =
-    //       await Database.getPurchaseRange(categoryDropDownText, timeDropDownText);
-
-    //   List<Purchase> filteredList;
-    //   if (timeDropDownText == "day") {
-    //     filteredList = tempList.where((item) {
-    //       DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(item.createdAt);
-    //       return itemDate.year == currentDate.year;
-    //     });
-    //   }
+    rangeData.clear();
+    dailyData.clear();
 
     // Build data for dailyData
     DateTime now = new DateTime.now();
     DateTime currentDate = new DateTime(now.year, now.month, now.day);
-    dailyData = purchaseData.data.where((item) {
-      DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(item.createdAt);
-      return itemDate.day == currentDate.day;
-    }).toList();
 
-    rangeData.clear();
+    // For each purchase in database
+    for (int i = 0; i < purchaseData.data.length; ++i) {
+      DateTime itemDate =
+          DateTime.fromMillisecondsSinceEpoch(purchaseData.data[i].createdAt);
+
+      if (itemDate.day == currentDate.day &&
+          itemDate.month == currentDate.month) {
+        Purchase temp = purchaseData.data[i];
+        dailyData.add(temp);
+      }
+    }
 
     // Build data for rangeData
     if (timeDropDownText == 'Year') {
@@ -95,8 +87,6 @@ class _GraphPageState extends State<GraphPage> {
 
         rangeData.add(temp);
       }
-
-      print(rangeData);
 
       // Add up expenditures for each month
       for (Purchase item in purchaseData.data) {
@@ -126,15 +116,14 @@ class _GraphPageState extends State<GraphPage> {
 
       // Select only purchases during current week
       for (Purchase item in purchaseData.data) {
-        print("Monday: $mostRecentMonday Item Day: $item.day\n");
-        if (item.day >= mostRecentMonday.day &&
-            item.day <= mostRecentMonday.add(const Duration(days: 7)).day) {
-          rangeData[item.day - mostRecentMonday.day].price += item.price;
+        if (item.month == currentDate.month) {
+          if (item.day >= mostRecentMonday.day &&
+              item.day <= mostRecentMonday.add(const Duration(days: 7)).day) {
+            rangeData[item.day - mostRecentMonday.day].price += item.price;
+          }
         }
       }
     }
-
-    print(rangeData);
   }
 
   @override
