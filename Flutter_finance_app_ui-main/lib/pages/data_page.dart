@@ -135,7 +135,7 @@ class _DataPageState extends State<DataPage> {
                                           ),
                                           SizedBox(height: 5),
                                           Text(
-                                            "Category: ${album.category}%",
+                                            "Category: ${album.category}",
                                             style: TextStyle(
                                               fontSize: 12,
                                               color:
