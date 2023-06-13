@@ -91,7 +91,12 @@ class _GraphPageState extends State<GraphPage> {
       // Add up expenditures for each month
       for (Purchase item in purchaseData.data) {
         if (item.year == now.year) {
-          rangeData[item.month].price += item.price;
+          if (categoryDropDownText == "Food" && item.category == "Food")
+            rangeData[item.month].price += item.price;
+
+          if (categoryDropDownText == "Utilities" &&
+              item.category == "Utilities")
+            rangeData[item.month].price += item.price;
         }
       }
     } else if (timeDropDownText == "Month") {
@@ -119,7 +124,12 @@ class _GraphPageState extends State<GraphPage> {
         if (item.month == currentDate.month) {
           if (item.day >= mostRecentMonday.day &&
               item.day <= mostRecentMonday.add(const Duration(days: 7)).day) {
-            rangeData[item.day - mostRecentMonday.day].price += item.price;
+            if (categoryDropDownText == "Food" && item.category == "Food")
+              rangeData[item.day - mostRecentMonday.day].price += item.price;
+
+            if (categoryDropDownText == "Utilities" &&
+                item.category == "Utilities")
+              rangeData[item.day - mostRecentMonday.day].price += item.price;
           }
         }
       }
