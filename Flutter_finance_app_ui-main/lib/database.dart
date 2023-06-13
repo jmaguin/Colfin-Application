@@ -45,10 +45,8 @@ class Database {
 
     incrementItemCount();
   }
-
-  // Return all purchases in database
-  // Orders returned List<Purchase> by creation time
-  static Future<List<Map<String, dynamic>>> getPurchases2() async {
+  
+static Future<List<Map<String, dynamic>>> getPurchases2() async {
     // Reference database
     final db = await Database.db();
 
@@ -80,6 +78,9 @@ class Database {
     // });
   }
 
+  // Return all purchases in database
+  // Orders returned List<Purchase> by creation time
+  // If no purchases returns empty list
   static Future<List<Purchase>> getPurchases() async {
     // Reference database
     final db = await Database.db();
@@ -161,7 +162,7 @@ class Database {
       return Purchase(
         id: maps[i]['id'],
         name: maps[i]['name'],
-        price: maps[i]['price'].toDouble(),
+        price: maps[i]['price'],
         category: maps[i]['category'],
         createdAt: maps[i]['createdAt'],
         year: maps[i]['year'],

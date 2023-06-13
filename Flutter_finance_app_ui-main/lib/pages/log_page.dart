@@ -4,8 +4,8 @@ import 'package:flutter_finance_app/database.dart';
 import 'package:flutter_finance_app/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-
 import 'package:flutter_finance_app/pages/data_constant.dart';
+import 'package:flutter_finance_app/pages/home_page.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -58,10 +58,28 @@ class _LogPageState extends State<LogPage> {
   @override
 Widget build(BuildContext context) {
   return new Scaffold(
+    appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: settBack,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+          },
+        ),
+      ),
     body: Stack(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height/3 ,
+          height: MediaQuery.of(context).size.height/4,
           decoration: BoxDecoration(
             color: settBack,
             borderRadius: BorderRadius.only(
@@ -133,7 +151,6 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
-
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),
@@ -174,7 +191,6 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
-
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),
@@ -215,7 +231,6 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
-
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),

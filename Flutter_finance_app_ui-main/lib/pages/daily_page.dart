@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_finance_app/pages/notification.dart';
 import 'package:flutter_finance_app/main.dart';
+import 'package:flutter_finance_app/pages/graph_page.dart';
 
 
 class DailyPage extends StatefulWidget {
@@ -86,6 +87,14 @@ class _DailyPageState extends State<DailyPage> {
       });
     }
   }
+  Future<void> navigateToGraphPage() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GraphPage(),
+      ),
+    );
+  }
     
     return SafeArea(
         child: SingleChildScrollView(
@@ -111,7 +120,12 @@ class _DailyPageState extends State<DailyPage> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Icon(Icons.bar_chart), 
+                    children: [ 
+                    GestureDetector(
+                        onTap: navigateToGraphPage,
+                        child: Icon(Icons.bar_chart),
+                        key: Key('bar'),
+                    ),
                     GestureDetector(
                         onTap: navigateToSettPage,
                         child: Icon(Icons.more_vert),
