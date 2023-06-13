@@ -7,6 +7,8 @@ import 'package:flutter_finance_app/pages/daily_page.dart';
 import 'package:flutter_finance_app/pages/log_page.dart';
 import 'package:flutter_finance_app/pages/coupon_page.dart';
 //import 'package:flutter_finance_app/pages/transection_page.dart';
+import 'package:flutter_finance_app/pages/data_page.dart';
+import 'package:flutter_finance_app/pages/graph_page.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/pages/settings_page.dart';
 

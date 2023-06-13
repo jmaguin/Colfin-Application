@@ -13,6 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await nm.initNotification();
   //await NotificationService().init();
+
   runApp(const MyApp());
 
 }

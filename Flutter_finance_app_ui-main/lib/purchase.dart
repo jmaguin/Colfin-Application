@@ -39,7 +39,7 @@ class Purchase {
   // Print info about purchase
   @override
   String toString() {
-    return "ID: $id\nName: $name\nPrice: $price\nCategory: $category\nCreated At: $createdAt";
+    return "ID: $id\nName: $name\nPrice: $price\nCategory: $category\nCreated At: $createdAt\n";
   }
 
   // Overload == operator

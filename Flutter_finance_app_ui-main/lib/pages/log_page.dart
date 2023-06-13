@@ -4,6 +4,7 @@ import 'package:flutter_finance_app/database.dart';
 import 'package:flutter_finance_app/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+
 import 'package:flutter_finance_app/pages/data_constant.dart';
 
 class LogPage extends StatefulWidget {
@@ -132,6 +133,7 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
+
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),
@@ -172,6 +174,7 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
+
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),
@@ -212,6 +215,7 @@ Widget build(BuildContext context) {
             //         )),
             //   ],
             // ),
+
           ),
           Padding(
             padding: const EdgeInsets.only(right: 1),

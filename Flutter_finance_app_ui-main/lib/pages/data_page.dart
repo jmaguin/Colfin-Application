@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_finance_app/theme/colors.dart';
 import 'package:flutter_finance_app/database.dart';
@@ -13,19 +13,29 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   late Future<List<Purchase>> futurePurchase;
+  Timer? timer;
 
   int numList = 0;
   bool avail = false;
   @override
   void initState() {
     super.initState();
-    try {
-      futurePurchase = Database.getPurchases();
+    updatePurchases();
+    startTimer();
+  }
 
-      avail = true;
-    } catch (e) {
-      avail = false;
-    }
+  void updatePurchases() async {
+    futurePurchase = Database.getPurchases();
+  }
+
+  void startTimer() {
+    if (timer != null && timer!.isActive) return;
+
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {
+        futurePurchase = Database.getPurchases();
+      });
+    });
   }
 
   @override
@@ -125,7 +135,7 @@ class _DataPageState extends State<DataPage> {
                                           ),
                                           SizedBox(height: 5),
                                           Text(
-                                            "Category: ${album.category}%",
+                                            "Category: ${album.category}",
                                             style: TextStyle(
                                               fontSize: 12,
                                               color:
