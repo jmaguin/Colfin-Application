@@ -1,16 +1,17 @@
-5 Pages in App:
+6 Pages in App:
   - daily page
   - home page
   - log page
-  - login page
-  - transaction page
+  - Graph page
+  - Data page
+  - Profile Settings Page
 
 -------Set Up-------
-Since the app is still in development phase, the program is only executable on an emulator. Install Android & Ios emulator extension on VScode or Android Studio. With the emulator opened, run the main.dart file located in flutter_finance_app_ui-main/lib. 
+The app is working for both Android and Ios devices. Since the app is still in development phase, the program currently is only executable on an emulator. Install Android & Ios emulator extension on VScode or Android Studio. With the emulator opened, run the main.dart file located in flutter_finance_app_ui-main/lib.
+A flutter SDK version of >3.0.0 is required to run the program; otherwise, dependency errors might occur. Run flutter upgrade if you run into any troubles.
 -------Dependencies-------
-All the dependencies required for the program to run should already by included inside the pubspec.yaml file. If any dependencies do not work, please use the command flutter pub add <dependency>.
+All the dependencies required for the program to run should already by included inside the pubspec.yaml file. If any dependencies do not work, please use the command flutter pub add <dependency> and flutter pub get.
 -------Home page & Coupons page-------
-
 Home Page Description:
 Users are directed to this page after log in. Home page gives users an overview of their spendings and funds available. Users will have the choice to other pages by navigating the icon bar at the bottom or interact with the icons at the top. 
 
@@ -36,6 +37,7 @@ Graph Page Description
   ~ each datapoint represents spending from selected time period
   ~ ex: User selects month -> datapoint represents each week's spending
         User selects week -> datapoint represents each day's spending
+
 
 -------Database-------
 
