@@ -93,9 +93,10 @@ class _GraphPageState extends State<GraphPage> {
         if (item.year == now.year) {
           if (categoryDropDownText == "Food" && item.category == "Food")
             rangeData[item.month].price += item.price;
-
-          if (categoryDropDownText == "Utilities" &&
+          else if (categoryDropDownText == "Utilities" &&
               item.category == "Utilities")
+            rangeData[item.month].price += item.price;
+          else if (categoryDropDownText == "All")
             rangeData[item.month].price += item.price;
         }
       }
@@ -126,9 +127,10 @@ class _GraphPageState extends State<GraphPage> {
               item.day <= mostRecentMonday.add(const Duration(days: 7)).day) {
             if (categoryDropDownText == "Food" && item.category == "Food")
               rangeData[item.day - mostRecentMonday.day].price += item.price;
-
-            if (categoryDropDownText == "Utilities" &&
+            else if (categoryDropDownText == "Utilities" &&
                 item.category == "Utilities")
+              rangeData[item.day - mostRecentMonday.day].price += item.price;
+            else if (categoryDropDownText == "All")
               rangeData[item.day - mostRecentMonday.day].price += item.price;
           }
         }
