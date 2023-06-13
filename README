@@ -1,9 +1,10 @@
-5 Pages in App:
+6 Pages in App:
   - daily page
   - home page
   - log page
-  - login page
-  - transaction page
+  - Graph page
+  - Data page
+  - Profile Settings Page
 
 -------Set Up-------
 Since the app is still in development phase, the program is only executable on an emulator. Install Android & Ios emulator extension on VScode or Android Studio. With the emulator opened, run the main.dart file located in flutter_finance_app_ui-main/lib. 
@@ -25,7 +26,6 @@ Coupons Page Functionalities:
 - Utilizes cheapshark public API to retrieve data on deals.
 - Convert data into JSON format with the following attributes, title, salePrice, and savings, and display it in listview.
 - Click on coupon box to navigate to the shop website.
-
 
 -------Database-------
 
